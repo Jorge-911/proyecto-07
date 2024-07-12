@@ -1,0 +1,49 @@
+//Tomando en cuenta la teoría de la clase sobre pilas, resuelva el código en C# la verificación  de una operación matemática se encuentran balanceados: Ej: {7+(8*5)-[(9-7)+(4+1)]} resultado => formula balanceada.//
+
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        string formula = "{7+(8*5)-[(9-7)+(4+1)]}";
+        bool resultado = VerificarBalanceo(formula);
+        Console.WriteLine(resultado ? "Fórmula balanceada" : "Fórmula no balanceada");
+    }
+
+    static bool VerificarBalanceo(string formula)
+    {
+        Stack<char> pila = new Stack<char>();
+
+        foreach (char c in formula)
+        {
+            if (c == '{' || c == '[' || c == '(')
+            {
+                pila.Push(c);
+            }
+            else if (c == '}' || c == ']' || c == ')')
+            {
+                if (pila.Count == 0)
+                {
+                    return false;
+                }
+
+                char top = pila.Pop();
+                if (!Coincide(top, c))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return pila.Count == 0;
+    }
+
+    static bool Coincide(char apertura, char cierre)
+    {
+        return (apertura == '{' && cierre == '}') ||
+               (apertura == '[' && cierre == ']') ||
+               (apertura == '(' && cierre == ')');
+    }
+}
